@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/services/util_service.dart';
 
 class ToDoPage extends StatefulWidget {
   const ToDoPage({Key? key}) : super(key: key);
@@ -9,6 +12,7 @@ class ToDoPage extends StatefulWidget {
 
 class _ToDoPageState extends State<ToDoPage> {
   bool isOnchanged = false;
+  bool isTextField = false;
 
   final list = [
     "test",
@@ -41,7 +45,7 @@ class _ToDoPageState extends State<ToDoPage> {
                 //   selected = index;
                 // },
                 contentPadding: EdgeInsets.zero,
-                tileColor: Colors.grey.shade300,
+                tileColor: Colors.grey.shade200,
                 leading: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   height: 15,
@@ -86,67 +90,63 @@ class _ToDoPageState extends State<ToDoPage> {
           alignment: Alignment.bottomCenter,
           child: Column(
             children: [
+
+
               SizedBox(
                 height: 60,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: (){
-
-                        },
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 7,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 13.0),
+                        child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              isTextField = true;
+                            });
+                          },
+                          child: CircleAvatar(
+                            radius: 20.0,
+                            backgroundColor: Utils.switchColor(index),
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-
-                        },
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundColor: Colors.green,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-
-                        },
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundColor: Colors.green,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-
-                        },
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundColor: Colors.green,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-
-                        },
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundColor: Colors.green,
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ),
+
+              // text field for to do
               Container(
                 height: 50,
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  onTap: (){},
+                  autofocus: isTextField,
+                  readOnly: !isTextField,
+                  onTap: () {
+                    Get.rawSnackbar(
+                      borderRadius: 10.0,
+                        message: "Rangni tanlang!",
+                        titleText: null,
+                        title: null,
+                        userInputForm: null,
+                        backgroundColor: Colors.red,
+                        barBlur: 0.0,
+                      maxWidth: 130,
+                      padding: const EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.only(bottom: 28),
+                    );
+                  },
+                  onSubmitted: (string){
+                    if(string.isNotEmpty) {
+                      setState(() {
+                        isTextField = false;
+                      });
+                    }
+                  },
                   cursorColor: Colors.black26,
                   decoration: InputDecoration(
                     suffixIcon: Container(
