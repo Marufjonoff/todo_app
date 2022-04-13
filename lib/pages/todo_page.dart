@@ -11,7 +11,6 @@ class ToDoPage extends StatefulWidget {
 }
 
 class _ToDoPageState extends State<ToDoPage> {
-  bool isTextField = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class _ToDoPageState extends State<ToDoPage> {
                     width: 15,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
-                      color: Utils.switchColor(Get.find<ToDoController>().index),
+                      color: Utils.switchColor(Get.find<ToDoController>().listContent[index].index),
                     ),
                   ),
                   shape: OutlineInputBorder(
@@ -64,9 +63,7 @@ class _ToDoPageState extends State<ToDoPage> {
                         minHeight: 70,
                       ),
                       icon: const Icon(Icons.check_outlined, color: Colors.white,),
-                      onPressed: (){
-
-                      },
+                      onPressed: (){},
                     ),
                   ),
                   title: Text(Get.find<ToDoController>().listContent[index].title),
@@ -92,9 +89,8 @@ class _ToDoPageState extends State<ToDoPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 13.0),
                           child: GestureDetector(
                             onTap: (){
-                              setState(() {
-                                isTextField = true;
-                              });
+                              Get.find<ToDoController>().isText();
+                              Get.find<ToDoController>().index = index;
                             },
                             child: CircleAvatar(
                               radius: 20.0,
@@ -113,8 +109,8 @@ class _ToDoPageState extends State<ToDoPage> {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
                     controller: Get.find<ToDoController>().contentController,
-                    autofocus: isTextField,
-                    readOnly: !isTextField,
+                    autofocus: Get.find<ToDoController>().isTextField,
+                    readOnly: !(Get.find<ToDoController>().isTextField),
                     onTap: () {
                       Get.rawSnackbar(
                         borderRadius: 10.0,

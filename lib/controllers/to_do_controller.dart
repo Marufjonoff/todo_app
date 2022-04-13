@@ -6,14 +6,12 @@ import 'package:todo_app/services/hive_service.dart';
 class ToDoController extends GetxController {
   TextEditingController contentController = TextEditingController();
   int index = 0;
-  bool isLoading = false;
   bool isTextField = false;
 
   List<ToDo> list = [];
   List<ToDo> listContent = [];
 
   void createContent(BuildContext context) async {
-    isLoading = true;
     String content = contentController.text.trim().toString();
     update();
 
@@ -23,15 +21,13 @@ class ToDoController extends GetxController {
     HiveDB.storeNotes(list);
 
     loadContent();
-    isLoading = false;
     contentController.clear();
-    FocusScopeNode currentFocus = FocusScope.of(context);
+    FocusScope.of(context).requestFocus(FocusNode());
     update();
   }
 
   void loadContent() {
     listContent = HiveDB.loadContent();
-    print(listContent.toString());
     update();
   }
 
