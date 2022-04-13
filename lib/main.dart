@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/pages/todo_page.dart';
+import 'package:todo_app/services/hive_service.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox(HiveDB.dbName);
   runApp(const MyApp());
 }
 
